@@ -1,0 +1,21 @@
+{
+  "type": "library",
+  "name": "hooloovoo/data-objects",
+  "description": "Simple serializable read-only entity abstraction library with data-typed fields",
+  "keywords": ["data object", "entity"],
+  "homepage": "https://github.com/vnejedly/data-objects",
+  "license": "MIT",
+  "authors": [{
+    "name": "Vladislav Nejedlý",
+    "email": "vladislav.nejedly@gmail.com",
+    "homepage": "https://www.linkedin.com/in/vladislav-nejedl%C3%BD-7140117b"
+  }],
+  "autoload": {
+    "psr-4": {
+      "Hooloovoo\\DataObjects\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=7.0.0"
+  }
+}
