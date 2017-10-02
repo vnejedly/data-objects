@@ -23,6 +23,22 @@ class FieldDateTime extends AbstractField
     }
 
     /**
+     * @param DateTime $value
+     */
+    public function setValue($value)
+    {
+        $this->_setValue($value);
+    }
+
+    /**
+     * @param DateTime $value
+     */
+    protected function _setValue(DateTime $value)
+    {
+        $this->_value = $value;
+    }
+
+    /**
      * @return string
      */
     public function getSerialized()

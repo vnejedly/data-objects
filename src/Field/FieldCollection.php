@@ -23,6 +23,22 @@ class FieldCollection extends AbstractField
     }
 
     /**
+     * @param DataObjectInterface[] $value
+     */
+    public function setValue($value)
+    {
+        $this->_setValue($value);
+    }
+
+    /**
+     * @param DataObjectInterface[] $value
+     */
+    protected function _setValue(array $value)
+    {
+        $this->_value = $value;
+    }
+
+    /**
      * @return array
      */
     public function getSerialized()

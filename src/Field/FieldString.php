@@ -19,4 +19,20 @@ class FieldString extends AbstractField
     {
         $this->_value = $value;
     }
+
+    /**
+     * @param string $value
+     */
+    public function setValue($value)
+    {
+        $this->_setValue($value);
+    }
+
+    /**
+     * @param string $value
+     */
+    protected function _setValue(string $value)
+    {
+        $this->_value = $value;
+    }
 }

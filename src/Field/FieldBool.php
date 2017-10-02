@@ -19,4 +19,20 @@ class FieldBool extends AbstractField
     {
         $this->_value = $value;
     }
+
+    /**
+     * @param bool $value
+     */
+    public function setValue($value)
+    {
+        $this->_setValue($value);
+    }
+
+    /**
+     * @param bool $value
+     */
+    protected function _setValue(bool $value)
+    {
+        $this->_value = $value;
+    }
 }

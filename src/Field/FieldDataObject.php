@@ -23,7 +23,23 @@ class FieldDataObject extends AbstractField
     }
 
     /**
-     * @return string
+     * @param DataObjectInterface $value
+     */
+    public function setValue($value)
+    {
+        $this->_setValue($value);
+    }
+
+    /**
+     * @param DataObjectInterface $value
+     */
+    protected function _setValue(DataObjectInterface $value)
+    {
+        $this->_value = $value;
+    }
+
+    /**
+     * @return array
      */
     public function getSerialized()
     {

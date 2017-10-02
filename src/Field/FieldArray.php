@@ -19,4 +19,20 @@ class FieldArray extends AbstractField
     {
         $this->_value = $value;
     }
+
+    /**
+     * @param array $value
+     */
+    public function setValue($value)
+    {
+        $this->_setValue($value);
+    }
+
+    /**
+     * @param array $value
+     */
+    protected function _setValue(array $value)
+    {
+        $this->_value = $value;
+    }
 }

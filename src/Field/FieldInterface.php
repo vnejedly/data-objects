@@ -17,6 +17,11 @@ interface FieldInterface
     public function getValue();
 
     /**
+     * @param mixed $value
+     */
+    public function setValue($value);
+
+    /**
      * @return mixed
      */
     public function getSerialized();

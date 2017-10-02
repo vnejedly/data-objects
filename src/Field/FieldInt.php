@@ -19,4 +19,20 @@ class FieldInt extends AbstractField
     {
         $this->_value = $value;
     }
+
+    /**
+     * @param int $value
+     */
+    public function setValue($value)
+    {
+        $this->_setValue($value);
+    }
+
+    /**
+     * @param int $value
+     */
+    protected function _setValue(int $value)
+    {
+        $this->_value = $value;
+    }
 }

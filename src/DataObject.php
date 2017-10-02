@@ -13,26 +13,21 @@ abstract class DataObject implements DataObjectInterface
     protected $_fields;
 
     /**
-     * @param DataObject $superclass
-     */
-    protected function _fetchSuperclassFields(self $superclass)
-    {
-        if (!is_subclass_of($this, get_class($superclass))) {
-            throw new LogicException("Incompatible entities!");
-        }
-
-        foreach ($superclass->getFields() as $name => $field) {
-            $this->_fields[$name] = $field;
-        }
-    }
-
-    /**
      * @param string $fieldName
      * @return FieldInterface
      */
     public function __get(string $fieldName)
     {
         return $this->getField($fieldName)->getValue();
+    }
+
+    /**
+     * @param string $fieldName
+     * @param mixed $value
+     */
+    public function __set(string $fieldName, $value)
+    {
+        $this->getField($fieldName)->setValue($value);
     }
 
     /**
@@ -70,10 +65,24 @@ abstract class DataObject implements DataObjectInterface
     }
 
     /**
+     * @param DataObjectInterface $superclass
+     */
+    protected function fetchSuperclassFields(DataObjectInterface $superclass)
+    {
+        if (!is_subclass_of($this, get_class($superclass))) {
+            throw new LogicException("Incompatible entities!");
+        }
+
+        foreach ($superclass->getFields() as $name => $field) {
+            $this->_fields[$name] = $field;
+        }
+    }
+
+    /**
      * @param $name
      * @param FieldInterface $field
      */
-    protected function _addField(string $name, FieldInterface $field)
+    protected function addField(string $name, FieldInterface $field)
     {
         $this->_fields[$name] = $field;
     }

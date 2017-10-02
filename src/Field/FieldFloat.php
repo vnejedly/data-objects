@@ -20,4 +20,20 @@ class FieldFloat extends AbstractField
     {
         $this->_value = $value;
     }
+
+    /**
+     * @param float $value
+     */
+    public function setValue($value)
+    {
+        $this->_setValue($value);
+    }
+
+    /**
+     * @param float $value
+     */
+    protected function _setValue(float $value)
+    {
+        $this->_value = $value;
+    }
 }
