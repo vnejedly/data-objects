@@ -12,6 +12,15 @@ abstract class AbstractField implements FieldInterface
     protected $_value;
 
     /**
+     * FieldString constructor.
+     * @param mixed $value
+     */
+    public function __construct($value = null)
+    {
+        $this->setValue($value);
+    }
+
+    /**
      * @return string
      */
     public function getType()

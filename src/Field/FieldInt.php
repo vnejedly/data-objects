@@ -12,15 +12,6 @@ class FieldInt extends AbstractField
     protected $_value;
 
     /**
-     * FieldInt constructor.
-     * @param int $value
-     */
-    public function __construct(int $value = null)
-    {
-        $this->_value = $value;
-    }
-
-    /**
      * @param int $value
      */
     public function setValue($value)
@@ -31,7 +22,7 @@ class FieldInt extends AbstractField
     /**
      * @param int $value
      */
-    protected function _setValue(int $value)
+    protected function _setValue(int $value = null)
     {
         $this->_value = $value;
     }

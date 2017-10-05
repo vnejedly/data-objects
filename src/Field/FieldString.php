@@ -12,15 +12,6 @@ class FieldString extends AbstractField
     protected $_value;
 
     /**
-     * FieldString constructor.
-     * @param string $value
-     */
-    public function __construct(string $value = null)
-    {
-        $this->_value = $value;
-    }
-
-    /**
      * @param string $value
      */
     public function setValue($value)
@@ -31,7 +22,7 @@ class FieldString extends AbstractField
     /**
      * @param string $value
      */
-    protected function _setValue(string $value)
+    protected function _setValue(string $value = null)
     {
         $this->_value = $value;
     }

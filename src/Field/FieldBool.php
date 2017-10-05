@@ -12,15 +12,6 @@ class FieldBool extends AbstractField
     protected $_value;
 
     /**
-     * FieldBool constructor.
-     * @param bool $value
-     */
-    public function __construct(bool $value = null)
-    {
-        $this->_value = $value;
-    }
-
-    /**
      * @param bool $value
      */
     public function setValue($value)
@@ -31,7 +22,7 @@ class FieldBool extends AbstractField
     /**
      * @param bool $value
      */
-    protected function _setValue(bool $value)
+    protected function _setValue(bool $value = null)
     {
         $this->_value = $value;
     }

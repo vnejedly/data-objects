@@ -14,15 +14,6 @@ class FieldCollection extends AbstractField
     protected $_value;
 
     /**
-     * FieldCollection constructor.
-     * @param DataObjectInterface[] $value
-     */
-    public function __construct(array $value = null)
-    {
-        $this->_value = $value;
-    }
-
-    /**
      * @param DataObjectInterface[] $value
      */
     public function setValue($value)
@@ -33,8 +24,12 @@ class FieldCollection extends AbstractField
     /**
      * @param DataObjectInterface[] $value
      */
-    protected function _setValue(array $value)
+    protected function _setValue(array $value = null)
     {
+        if (is_null($value)) {
+            $value = [];
+        }
+
         $this->_value = $value;
     }
 

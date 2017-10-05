@@ -14,15 +14,6 @@ class FieldDateTime extends AbstractField
     protected $_value;
 
     /**
-     * FieldDateTime constructor.
-     * @param DateTime $value
-     */
-    public function __construct(DateTime $value = null)
-    {
-        $this->_value = $value;
-    }
-
-    /**
      * @param DateTime $value
      */
     public function setValue($value)
@@ -33,7 +24,7 @@ class FieldDateTime extends AbstractField
     /**
      * @param DateTime $value
      */
-    protected function _setValue(DateTime $value)
+    protected function _setValue(DateTime $value = null)
     {
         $this->_value = $value;
     }

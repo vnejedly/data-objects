@@ -13,15 +13,6 @@ class FieldFloat extends AbstractField
     protected $_value;
 
     /**
-     * FieldFloat constructor.
-     * @param float $value
-     */
-    public function __construct(float $value = null)
-    {
-        $this->_value = $value;
-    }
-
-    /**
      * @param float $value
      */
     public function setValue($value)
@@ -32,7 +23,7 @@ class FieldFloat extends AbstractField
     /**
      * @param float $value
      */
-    protected function _setValue(float $value)
+    protected function _setValue(float $value = null)
     {
         $this->_value = $value;
     }

@@ -14,15 +14,6 @@ class FieldDataObject extends AbstractField
     protected $_value;
 
     /**
-     * FieldDataObject constructor.
-     * @param DataObjectInterface $value
-     */
-    public function __construct(DataObjectInterface $value = null)
-    {
-        $this->_value = $value;
-    }
-
-    /**
      * @param DataObjectInterface $value
      */
     public function setValue($value)
@@ -33,7 +24,7 @@ class FieldDataObject extends AbstractField
     /**
      * @param DataObjectInterface $value
      */
-    protected function _setValue(DataObjectInterface $value)
+    protected function _setValue(DataObjectInterface $value = null)
     {
         $this->_value = $value;
     }

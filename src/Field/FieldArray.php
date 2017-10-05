@@ -12,15 +12,6 @@ class FieldArray extends AbstractField
     protected $_value;
 
     /**
-     * FieldArray constructor.
-     * @param array $value
-     */
-    public function __construct(array $value = null)
-    {
-        $this->_value = $value;
-    }
-
-    /**
      * @param array $value
      */
     public function setValue($value)
@@ -31,8 +22,12 @@ class FieldArray extends AbstractField
     /**
      * @param array $value
      */
-    protected function _setValue(array $value)
+    protected function _setValue(array $value = null)
     {
+        if (is_null($value)) {
+            $value = [];
+        }
+
         $this->_value = $value;
     }
 }
