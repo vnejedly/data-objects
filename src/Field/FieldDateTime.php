@@ -2,6 +2,7 @@
 namespace Hooloovoo\DataObjects\Field;
 
 use DateTime;
+use Hooloovoo\DataObjects\Field\Exception\InvalidValueException;
 
 /**
  * Class FieldDateTime
@@ -16,16 +17,12 @@ class FieldDateTime extends AbstractField
     /**
      * @param DateTime $value
      */
-    public function setValue($value)
+    protected function _setValue($value = null)
     {
-        $this->_setValue($value);
-    }
+        if (!$value instanceof DateTime) {
+            throw new InvalidValueException(self::class, $value);
+        }
 
-    /**
-     * @param DateTime $value
-     */
-    protected function _setValue(DateTime $value = null)
-    {
         $this->_value = $value;
     }
 

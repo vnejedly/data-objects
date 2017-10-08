@@ -9,6 +9,11 @@ use Hooloovoo\DataObjects\Field\FieldInterface;
 interface DataObjectInterface
 {
     /**
+     * @return bool
+     */
+    public function isUnlocked() : bool ;
+
+    /**
      * @param $name
      * @return FieldInterface
      */

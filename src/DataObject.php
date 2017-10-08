@@ -12,6 +12,9 @@ abstract class DataObject implements DataObjectInterface
     /** @var FieldInterface[] */
     protected $_fields;
 
+    /** @var bool */
+    protected $_unlocked = false;
+
     /**
      * @param string $fieldName
      * @return FieldInterface
@@ -28,6 +31,15 @@ abstract class DataObject implements DataObjectInterface
     public function __set(string $fieldName, $value)
     {
         $this->getField($fieldName)->setValue($value);
+        $this->_unlocked = true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUnlocked() : bool
+    {
+        return $this->_unlocked;
     }
 
     /**

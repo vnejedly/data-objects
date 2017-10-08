@@ -1,6 +1,8 @@
 <?php
 namespace Hooloovoo\DataObjects\Field;
 
+use Hooloovoo\DataObjects\Field\Exception\InvalidValueException;
+
 /**
  * Class FieldString
  */
@@ -14,16 +16,18 @@ class FieldString extends AbstractField
     /**
      * @param string $value
      */
-    public function setValue($value)
+    protected function _setValue($value = null)
     {
-        $this->_setValue($value);
-    }
+        if (is_string($value)) {
+            $this->_value = $value;
+            return;
+        }
 
-    /**
-     * @param string $value
-     */
-    protected function _setValue(string $value = null)
-    {
-        $this->_value = $value;
+        if (is_numeric($value)) {
+            $this->_value = (string) $value;
+            return;
+        }
+
+        throw new InvalidValueException(self::class, $value);
     }
 }

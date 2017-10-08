@@ -11,13 +11,25 @@ abstract class AbstractField implements FieldInterface
     /** @var mixed */
     protected $_value;
 
+    /** @var bool */
+    protected $_unlocked = false;
+
     /**
      * FieldString constructor.
      * @param mixed $value
      */
     public function __construct($value = null)
     {
-        $this->setValue($value);
+        $this->_setValue($value);
+    }
+
+    /**
+     * @param float $value
+     */
+    public function setValue($value)
+    {
+        $this->_setValue($value);
+        $this->_unlocked = true;
     }
 
     /**
@@ -37,10 +49,23 @@ abstract class AbstractField implements FieldInterface
     }
 
     /**
+     * @return bool
+     */
+    public function isUnlocked(): bool
+    {
+        return $this->_unlocked;
+    }
+
+    /**
      * @return mixed
      */
     public function getSerialized()
     {
         return $this->_value;
     }
+
+    /**
+     * @param $value
+     */
+    abstract protected function _setValue($value = null);
 }

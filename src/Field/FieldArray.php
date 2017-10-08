@@ -1,6 +1,8 @@
 <?php
 namespace Hooloovoo\DataObjects\Field;
 
+use Hooloovoo\DataObjects\Field\Exception\InvalidValueException;
+
 /**
  * Class FieldArray
  */
@@ -14,18 +16,10 @@ class FieldArray extends AbstractField
     /**
      * @param array $value
      */
-    public function setValue($value)
+    protected function _setValue($value = null)
     {
-        $this->_setValue($value);
-    }
-
-    /**
-     * @param array $value
-     */
-    protected function _setValue(array $value = null)
-    {
-        if (is_null($value)) {
-            $value = [];
+        if (!is_null($value) && !is_array($value)) {
+            throw new InvalidValueException(self::class, $value);
         }
 
         $this->_value = $value;

@@ -1,6 +1,8 @@
 <?php
 namespace Hooloovoo\DataObjects\Field;
 
+use Hooloovoo\DataObjects\Field\Exception\InvalidValueException;
+
 /**
  * Class FieldFloat
  */
@@ -15,16 +17,21 @@ class FieldFloat extends AbstractField
     /**
      * @param float $value
      */
-    public function setValue($value)
+    protected function _setValue($value = null)
     {
-        $this->_setValue($value);
-    }
+        if (is_float($value)) {
+            $this->_value = $value;
+            return;
+        }
 
-    /**
-     * @param float $value
-     */
-    protected function _setValue(float $value = null)
-    {
-        $this->_value = $value;
+        if (is_string($value)) {
+            $floatValue = (float) $value;
+            if ((string) $floatValue === $value) {
+                $this->_value = $floatValue;
+                return;
+            }
+        }
+
+        throw new InvalidValueException(self::class, $value);
     }
 }

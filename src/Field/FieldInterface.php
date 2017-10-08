@@ -22,6 +22,11 @@ interface FieldInterface
     public function setValue($value);
 
     /**
+     * @return bool
+     */
+    public function isUnlocked() : bool ;
+
+    /**
      * @return mixed
      */
     public function getSerialized();

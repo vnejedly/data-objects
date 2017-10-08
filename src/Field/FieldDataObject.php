@@ -2,6 +2,7 @@
 namespace Hooloovoo\DataObjects\Field;
 
 use Hooloovoo\DataObjects\DataObjectInterface;
+use Hooloovoo\DataObjects\Field\Exception\InvalidValueException;
 
 /**
  * Class FieldDataObject
@@ -16,16 +17,12 @@ class FieldDataObject extends AbstractField
     /**
      * @param DataObjectInterface $value
      */
-    public function setValue($value)
+    protected function _setValue($value = null)
     {
-        $this->_setValue($value);
-    }
+        if (!$value instanceof DataObjectInterface) {
+            throw new InvalidValueException(self::class, $value);
+        }
 
-    /**
-     * @param DataObjectInterface $value
-     */
-    protected function _setValue(DataObjectInterface $value = null)
-    {
         $this->_value = $value;
     }
 
