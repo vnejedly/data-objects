@@ -19,7 +19,7 @@ class FieldFloat extends AbstractField
      */
     protected function _setValue($value = null)
     {
-        if (is_float($value)) {
+        if (is_null($value) || is_float($value) || is_numeric($value)) {
             $this->_value = $value;
             return;
         }

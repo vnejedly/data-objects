@@ -18,7 +18,7 @@ class FieldInt extends AbstractField
      */
     protected function _setValue($value = null)
     {
-        if (is_int($value)) {
+        if (is_null($value) || is_int($value)) {
             $this->_value = $value;
             return;
         }

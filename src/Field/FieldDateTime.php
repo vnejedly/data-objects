@@ -19,7 +19,7 @@ class FieldDateTime extends AbstractField
      */
     protected function _setValue($value = null)
     {
-        if (!$value instanceof DateTime) {
+        if (!is_null($value) && !$value instanceof DateTime) {
             throw new InvalidValueException(self::class, $value);
         }
 

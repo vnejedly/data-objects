@@ -18,7 +18,7 @@ class FieldString extends AbstractField
      */
     protected function _setValue($value = null)
     {
-        if (is_string($value)) {
+        if (is_null($value) || is_string($value)) {
             $this->_value = $value;
             return;
         }

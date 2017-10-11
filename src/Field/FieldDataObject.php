@@ -19,7 +19,7 @@ class FieldDataObject extends AbstractField
      */
     protected function _setValue($value = null)
     {
-        if (!$value instanceof DataObjectInterface) {
+        if (!is_null($value) && !$value instanceof DataObjectInterface) {
             throw new InvalidValueException(self::class, $value);
         }
 

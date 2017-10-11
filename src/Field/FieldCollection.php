@@ -19,7 +19,12 @@ class FieldCollection extends AbstractField
      */
     protected function _setValue($value = null)
     {
-        if (!is_null($value) && !is_array($value)) {
+        if (is_null($value)) {
+            $this->_value = null;
+            return;
+        }
+
+        if (!is_array($value)) {
             throw new InvalidValueException(self::class, $value);
         }
 
