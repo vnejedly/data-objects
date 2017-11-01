@@ -2,6 +2,7 @@
 namespace Hooloovoo\DataObjects;
 
 use Hooloovoo\DataObjects\Exception\LogicException;
+use Hooloovoo\DataObjects\Exception\NonExistingFieldException;
 use Hooloovoo\DataObjects\Field\FieldInterface;
 
 /**
@@ -49,7 +50,7 @@ abstract class DataObject implements DataObjectInterface
     public function getField($name)
     {
         if (!array_key_exists($name, $this->_fields)) {
-            throw new LogicException("Field $name doesn't exist");
+            throw new NonExistingFieldException($name);
         }
 
         return $this->_fields[$name];
