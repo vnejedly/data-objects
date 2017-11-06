@@ -31,6 +31,10 @@ class FieldDateTime extends AbstractField
      */
     public function getSerialized()
     {
+        if (is_null($this->_value)) {
+            return null;
+        }
+
         return $this->_value->format(DateTime::W3C);
     }
 }
