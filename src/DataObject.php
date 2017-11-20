@@ -36,6 +36,16 @@ abstract class DataObject implements DataObjectInterface
     }
 
     /**
+     * @param $name
+     * @param $arguments
+     * @return mixed
+     */
+    public function __call($name, $arguments)
+    {
+        return $this->getField($name)->getValue();
+    }
+
+    /**
      * @return bool
      */
     public function isUnlocked() : bool
