@@ -38,6 +38,23 @@ class FieldCollection extends AbstractField
     }
 
     /**
+     * @return bool
+     */
+    public function isUnlocked(): bool
+    {
+        $childUnlocked = false;
+
+        foreach ($this->_value as $child) {
+            if ($child->isUnlocked()) {
+                $childUnlocked = true;
+                break;
+            }
+        }
+
+        return $this->_unlocked || $childUnlocked;
+    }
+
+    /**
      * @return array
      */
     public function getSerialized()

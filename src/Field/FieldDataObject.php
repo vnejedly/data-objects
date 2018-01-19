@@ -27,6 +27,14 @@ class FieldDataObject extends AbstractField
     }
 
     /**
+     * @return bool
+     */
+    public function isUnlocked(): bool
+    {
+        return $this->_unlocked || $this->_value->isUnlocked();
+    }
+
+    /**
      * @return array
      */
     public function getSerialized()
