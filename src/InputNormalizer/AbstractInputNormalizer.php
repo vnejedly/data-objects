@@ -157,10 +157,8 @@ abstract class AbstractInputNormalizer implements NormalizerInterface
     {
         $normalizedData = $this->getNormalizedData($data);
 
-        foreach ($entity->getFields() as $name => $field) {
-            if (array_key_exists($name, $normalizedData)) {
-                $field->setValue($normalizedData[$name]);
-            }
+        foreach ($normalizedData as $name => $value) {
+            $entity->getField($name)->setValue($value);
         }
         
         return $entity;

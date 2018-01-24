@@ -3,6 +3,7 @@ namespace Hooloovoo\DataObjects;
 
 use Hooloovoo\DataObjects\Exception\LogicException;
 use Hooloovoo\DataObjects\Exception\NonExistingFieldException;
+use Hooloovoo\DataObjects\Field\FieldComputed;
 use Hooloovoo\DataObjects\Field\FieldInterface;
 
 /**
@@ -109,6 +110,10 @@ abstract class DataObject implements DataObjectInterface
      */
     protected function addField(string $name, FieldInterface $field)
     {
+        if ($field instanceof FieldComputed) {
+            $field->setParentDataObject($this);
+        }
+
         $this->_fields[$name] = $field;
     }
 }
