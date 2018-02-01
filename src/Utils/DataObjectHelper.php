@@ -184,6 +184,48 @@ class DataObjectHelper
     }
 
     /**
+     * @param string $collectionPath
+     * @param string $itemPath
+     * @return float
+     */
+    public function getCollectionFloatFieldSum(string $collectionPath, string $itemPath)
+    {
+        $values = $this->getCollectionFieldValues($collectionPath, $itemPath, false);
+
+        $sum = (float) 0;
+        foreach ($values as $value) {
+            if (!is_numeric($value)) {
+                return null;
+            }
+
+            $sum = $sum + (float) $value;
+        }
+
+        return (float) $sum;
+    }
+
+    /**
+     * @param string $collectionPath
+     * @param string $itemPath
+     * @return int
+     */
+    public function getCollectionIntegerFieldSum(string $collectionPath, string $itemPath)
+    {
+        $values = $this->getCollectionFieldValues($collectionPath, $itemPath, false);
+
+        $sum = (int) 0;
+        foreach ($values as $value) {
+            if (!is_numeric($value)) {
+                return null;
+            }
+
+            $sum = $sum + (int) $value;
+        }
+
+        return (int) $sum;
+    }
+
+    /**
      * @param DataObjectHelper $item
      * @param array $conditions
      * @return bool
