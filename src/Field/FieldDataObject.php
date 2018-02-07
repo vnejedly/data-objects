@@ -29,8 +29,12 @@ class FieldDataObject extends AbstractField
     /**
      * @return bool
      */
-    public function isUnlocked(): bool
+    public function isUnlocked() : bool
     {
+        if (is_null($this->_value)) {
+            return $this->_unlocked;
+        }
+
         return $this->_unlocked || $this->_value->isUnlocked();
     }
 

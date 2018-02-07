@@ -51,7 +51,7 @@ abstract class AbstractField implements FieldInterface
     /**
      * @return bool
      */
-    public function isUnlocked(): bool
+    public function isUnlocked() : bool
     {
         return $this->_unlocked;
     }

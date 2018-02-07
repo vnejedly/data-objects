@@ -42,16 +42,18 @@ class FieldCollection extends AbstractField
      */
     public function isUnlocked(): bool
     {
-        $childUnlocked = false;
+        if (is_null($this->_value)) {
+            return $this->_unlocked;
+        }
 
+        $childUnlocked = false;
         foreach ($this->_value as $child) {
             if ($child->isUnlocked()) {
-                $childUnlocked = true;
-                break;
+                return true;
             }
         }
 
-        return $this->_unlocked || $childUnlocked;
+        return $this->_unlocked;
     }
 
     /**
