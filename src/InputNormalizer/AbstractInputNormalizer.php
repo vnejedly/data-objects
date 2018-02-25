@@ -139,7 +139,7 @@ abstract class AbstractInputNormalizer implements NormalizerInterface
             }
 
             $outputData[$fieldName] = $valueCallback($data[$fieldName]);
-        } elseif (array_key_exists($fieldName, $data)) {
+        } elseif (array_key_exists($fieldName, $data) && !is_null($data[$fieldName])) {
             if (!preg_match($pattern, $data[$fieldName])) {
                 throw new BadInputDataException($fieldName, $pattern);
             }
