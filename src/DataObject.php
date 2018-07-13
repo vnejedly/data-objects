@@ -116,4 +116,43 @@ abstract class DataObject implements DataObjectInterface
 
         $this->_fields[$name] = $field;
     }
+
+    /**
+     * @param array $collection
+     * @param string $leadingField
+     * @param string $sourceField
+     * @param FieldSet $fieldSet
+     * @param string $prefix
+     */
+    protected function transformCollection(
+        array $collection,
+        string $leadingField,
+        string $sourceField,
+        FieldSet $fieldSet = null,
+        string $prefix = null
+    ) {
+        if (is_null($prefix)) {
+            $prefix = $sourceField;
+        }
+
+        foreach ($collection as $vatPrice) {
+            $leadingFieldValue = (string) $vatPrice->getField($leadingField)->getValue();
+            $targetFieldName = $prefix . ucfirst($leadingFieldValue);
+
+            $field = new FieldComputed(
+                function () use ($vatPrice, $sourceField) {
+                    return $vatPrice->getField($sourceField)->getValue();
+                },
+                function ($value) use ($vatPrice, $sourceField) {
+                    $vatPrice->getField($sourceField)->setValue($value);
+                }
+            );
+
+            $this->addField($targetFieldName, $field);
+
+            if (!is_null($fieldSet)) {
+                $fieldSet->addField($targetFieldName, $field);
+            }
+        }
+    }
 }

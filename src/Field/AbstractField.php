@@ -15,7 +15,7 @@ abstract class AbstractField implements FieldInterface
     protected $_unlocked = false;
 
     /**
-     * FieldString constructor.
+     * Field constructor.
      * @param mixed $value
      */
     public function __construct($value = null)

@@ -46,7 +46,6 @@ class FieldCollection extends AbstractField
             return $this->_unlocked;
         }
 
-        $childUnlocked = false;
         foreach ($this->_value as $child) {
             if ($child->isUnlocked()) {
                 return true;
