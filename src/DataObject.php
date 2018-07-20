@@ -2,18 +2,13 @@
 namespace Hooloovoo\DataObjects;
 
 use Hooloovoo\DataObjects\Exception\LogicException;
-use Hooloovoo\DataObjects\Exception\NonExistingFieldException;
-use Hooloovoo\DataObjects\Field\FieldComputed;
 use Hooloovoo\DataObjects\Field\FieldInterface;
 
 /**
  * Class DataObject
  */
-abstract class DataObject implements DataObjectInterface
+abstract class DataObject extends FieldSet implements DataObjectInterface
 {
-    /** @var FieldInterface[] */
-    protected $_fields;
-
     /**
      * @param string $fieldName
      * @return FieldInterface
@@ -47,7 +42,7 @@ abstract class DataObject implements DataObjectInterface
      */
     public function isUnlocked() : bool
     {
-        foreach ($this->_fields as $field) {
+        foreach ($this->fields as $field) {
             if ($field->isUnlocked()) {
                 return true;
             }
@@ -57,33 +52,12 @@ abstract class DataObject implements DataObjectInterface
     }
 
     /**
-     * @param $name
-     * @return FieldInterface
-     */
-    public function getField($name)
-    {
-        if (!array_key_exists($name, $this->_fields)) {
-            throw new NonExistingFieldException($name);
-        }
-
-        return $this->_fields[$name];
-    }
-
-    /**
-     * @return FieldInterface[]
-     */
-    public function getFields()
-    {
-        return $this->_fields;
-    }
-
-    /**
      * @return array
      */
     public function getSerialized()
     {
         $result = [];
-        foreach ($this->_fields as $name => $field) {
+        foreach ($this->fields as $name => $field) {
             $result[$name] = $field->getSerialized();
         }
 
@@ -100,58 +74,37 @@ abstract class DataObject implements DataObjectInterface
         }
 
         foreach ($superclass->getFields() as $name => $field) {
-            $this->_fields[$name] = $field;
+            $this->fields[$name] = $field;
         }
     }
 
     /**
-     * @param $name
-     * @param FieldInterface $field
-     */
-    protected function addField(string $name, FieldInterface $field)
-    {
-        if ($field instanceof FieldComputed) {
-            $field->setParentDataObject($this);
-        }
-
-        $this->_fields[$name] = $field;
-    }
-
-    /**
-     * @param array $collection
-     * @param string $leadingField
-     * @param string $sourceField
-     * @param FieldSet $fieldSet
+     * @param DataObjectInterface[] $collection
+     * @param string $leadingFieldName
+     * @param string $sourceFieldName
+     * @param FieldSet $controlFieldSet
      * @param string $prefix
      */
     protected function transformCollection(
         array $collection,
-        string $leadingField,
-        string $sourceField,
-        FieldSet $fieldSet = null,
+        string $leadingFieldName,
+        string $sourceFieldName,
+        FieldSet $controlFieldSet = null,
         string $prefix = null
     ) {
         if (is_null($prefix)) {
-            $prefix = $sourceField;
+            $prefix = $sourceFieldName;
         }
 
-        foreach ($collection as $vatPrice) {
-            $leadingFieldValue = (string) $vatPrice->getField($leadingField)->getValue();
+        foreach ($collection as $dataObject) {
+            $leadingFieldValue = (string) $dataObject->getField($leadingFieldName)->getValue();
             $targetFieldName = $prefix . ucfirst($leadingFieldValue);
+            $sourceField = $dataObject->getField($sourceFieldName);
 
-            $field = new FieldComputed(
-                function () use ($vatPrice, $sourceField) {
-                    return $vatPrice->getField($sourceField)->getValue();
-                },
-                function ($value) use ($vatPrice, $sourceField) {
-                    $vatPrice->getField($sourceField)->setValue($value);
-                }
-            );
+            $this->addField($targetFieldName, $sourceField);
 
-            $this->addField($targetFieldName, $field);
-
-            if (!is_null($fieldSet)) {
-                $fieldSet->addField($targetFieldName, $field);
+            if (!is_null($controlFieldSet)) {
+                $controlFieldSet->addField($targetFieldName, $sourceField);
             }
         }
     }

@@ -1,7 +1,7 @@
 <?php
 namespace Hooloovoo\DataObjects\Field;
 
-use Hooloovoo\DataObjects\DataObjectInterface;
+use Hooloovoo\DataObjects\FieldSetInterface;
 use Hooloovoo\ORM\Exception\ComputedFieldUnsettableException;
 use Hooloovoo\ORM\Exception\InvalidCallbackException;
 
@@ -10,8 +10,8 @@ use Hooloovoo\ORM\Exception\InvalidCallbackException;
  */
 class FieldComputed extends AbstractField
 {
-    /** @var DataObjectInterface */
-    protected $dataObject;
+    /** @var FieldSetInterface */
+    protected $fieldSet;
 
     /** @var callable */
     protected $callbackSet;
@@ -28,8 +28,8 @@ class FieldComputed extends AbstractField
     public function __construct(callable $callbackGet, callable $callbackSet = null)
     {
         if (is_null($callbackSet)) {
-            $callbackSet = function (DataObjectInterface $dataObject, $value) {
-                throw new ComputedFieldUnsettableException(get_class($dataObject), $value);
+            $callbackSet = function (FieldSetInterface $fieldSet, $value) {
+                throw new ComputedFieldUnsettableException(get_class($fieldSet), $value);
             };
         }
 
@@ -42,11 +42,11 @@ class FieldComputed extends AbstractField
     }
 
     /**
-     * @param DataObjectInterface $dataObject
+     * @param FieldSetInterface $fieldSet
      */
-    public function setParentDataObject(DataObjectInterface $dataObject)
+    public function setFieldSet(FieldSetInterface $fieldSet)
     {
-        $this->dataObject = $dataObject;
+        $this->fieldSet = $fieldSet;
     }
 
     /**
@@ -63,7 +63,7 @@ class FieldComputed extends AbstractField
     public function getValue()
     {
         $callback = &$this->callbackGet;
-        return $callback($this->dataObject);
+        return $callback($this->fieldSet);
     }
 
     /**
@@ -73,6 +73,6 @@ class FieldComputed extends AbstractField
     protected function _setValue($value = null)
     {
         $callback = &$this->callbackSet;
-        $callback($value, $this->dataObject);
+        $callback($value, $this->fieldSet);
     }
 }

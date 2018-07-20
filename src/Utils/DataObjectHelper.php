@@ -9,11 +9,10 @@ use Hooloovoo\DataObjects\Field\FieldInterface;
  */
 class DataObjectHelper
 {
+    const PLUNGE_SEPARATOR = '.';
+
     /** @var DataObjectInterface */
     protected $dataObject;
-
-    /** @var string */
-    protected $plungeSeparator = '.';
 
     /**
      * DataObjectHelper constructor.
@@ -39,7 +38,7 @@ class DataObjectHelper
      */
     public function getField(string $path) : FieldInterface
     {
-        $parts = explode($this->plungeSeparator, $path);
+        $parts = explode(self::PLUNGE_SEPARATOR, $path);
 
         $field = null;
         $plunge = $this->dataObject;
