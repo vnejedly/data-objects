@@ -134,7 +134,7 @@ class DataObjectHelper
      * @param array $conditions
      * @return self
      */
-    public function getCollectionItemHelper(string $path, array $conditions)
+    public function getCollectionItemHelper(string $path, array $conditions = [])
     {
         $collection = $this->getValue($path);
         foreach ($collection as $dataObject) {
@@ -154,7 +154,7 @@ class DataObjectHelper
      * @param array $conditions
      * @return FieldInterface
      */
-    public function getCollectionItemField(string $path, string $itemPath, array $conditions)
+    public function getCollectionItemField(string $path, string $itemPath, array $conditions = [])
     {
         $helper = $this->getCollectionItemHelper($path, $conditions);
 
@@ -171,7 +171,7 @@ class DataObjectHelper
      * @param array $conditions
      * @return mixed
      */
-    public function getCollectionItemValue(string $path, string $itemPath, array $conditions)
+    public function getCollectionItemValue(string $path, string $itemPath, array $conditions = [])
     {
         $field = $this->getCollectionItemField($path, $itemPath, $conditions);
 
@@ -229,7 +229,7 @@ class DataObjectHelper
      * @param array $conditions
      * @return bool
      */
-    protected function passesConditions(self $item, array $conditions) : bool
+    protected function passesConditions(self $item, array $conditions = []) : bool
     {
         foreach ($conditions as $columnName => $columnValue) {
             $current = $item->getValue($columnName);

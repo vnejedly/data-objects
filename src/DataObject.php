@@ -2,6 +2,7 @@
 namespace Hooloovoo\DataObjects;
 
 use Hooloovoo\DataObjects\Exception\LogicException;
+use Hooloovoo\DataObjects\Field\FieldCollection;
 use Hooloovoo\DataObjects\Field\FieldInterface;
 
 /**
@@ -9,6 +10,8 @@ use Hooloovoo\DataObjects\Field\FieldInterface;
  */
 abstract class DataObject extends FieldSet implements DataObjectInterface
 {
+    const COLLECTION_SINGLE_PREFIX = 'single';
+
     /**
      * @param string $fieldName
      * @return FieldInterface
@@ -34,6 +37,15 @@ abstract class DataObject extends FieldSet implements DataObjectInterface
      */
     public function __call($name, $arguments)
     {
+        $collectionSinglePrefix = self::COLLECTION_SINGLE_PREFIX;
+
+        if (preg_match("/^$collectionSinglePrefix(\w+)$/", $name, $matches)) {
+            $field = $this->getField(lcfirst($matches[1]));
+            if ($field instanceof FieldCollection) {
+                return $field->getSingle();
+            }
+        }
+
         return $this->getField($name)->getValue();
     }
 

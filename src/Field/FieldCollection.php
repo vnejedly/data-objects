@@ -67,4 +67,13 @@ class FieldCollection extends AbstractField
 
         return $result;
     }
+
+    /**
+     * @return DataObjectInterface
+     */
+    public function getSingle()
+    {
+        $value = $this->_value;
+        return array_shift($value);
+    }
 }
