@@ -13,6 +13,9 @@ class FieldSet implements FieldSetInterface
     /** @var FieldComputed[] */
     protected $fields = [];
 
+    /** @var self[] */
+    protected $controlFieldSets = [];
+
     /**
      * @param $name
      * @param FieldInterface $field
@@ -45,5 +48,51 @@ class FieldSet implements FieldSetInterface
     public function getFields() : array
     {
         return $this->fields;
+    }
+
+    /**
+     * @param string $name
+     * @return FieldSet
+     */
+    public function getControlFieldSet(string $name) : self
+    {
+        return $this->controlFieldSets[$name];
+    }
+
+    /**
+     * @param DataObjectInterface[] $collection
+     * @param string $leadingFieldName
+     * @param string $sourceFieldName
+     * @param string $prefix
+     */
+    protected function transformCollection(
+        array $collection,
+        string $leadingFieldName,
+        string $sourceFieldName,
+        string $prefix = null
+    ) {
+        if (is_null($prefix)) {
+            $prefix = $sourceFieldName;
+        }
+
+        $this->addControlFieldSet($prefix, $controlFieldSet = new self());
+
+        foreach ($collection as $dataObject) {
+            $leadingFieldValue = (string) $dataObject->getField($leadingFieldName)->getValue();
+            $targetFieldName = $prefix . ucfirst($leadingFieldValue);
+            $sourceField = $dataObject->getField($sourceFieldName);
+
+            $this->addField($targetFieldName, $sourceField);
+            $controlFieldSet->addField($targetFieldName, $sourceField);
+        }
+    }
+
+    /**
+     * @param string $name
+     * @param FieldSet $fieldSet
+     */
+    protected function addControlFieldSet(string $name, self $fieldSet)
+    {
+        $this->controlFieldSets[$name] = $fieldSet;
     }
 }

@@ -89,35 +89,4 @@ abstract class DataObject extends FieldSet implements DataObjectInterface
             $this->fields[$name] = $field;
         }
     }
-
-    /**
-     * @param DataObjectInterface[] $collection
-     * @param string $leadingFieldName
-     * @param string $sourceFieldName
-     * @param FieldSet $controlFieldSet
-     * @param string $prefix
-     */
-    protected function transformCollection(
-        array $collection,
-        string $leadingFieldName,
-        string $sourceFieldName,
-        FieldSet $controlFieldSet = null,
-        string $prefix = null
-    ) {
-        if (is_null($prefix)) {
-            $prefix = $sourceFieldName;
-        }
-
-        foreach ($collection as $dataObject) {
-            $leadingFieldValue = (string) $dataObject->getField($leadingFieldName)->getValue();
-            $targetFieldName = $prefix . ucfirst($leadingFieldValue);
-            $sourceField = $dataObject->getField($sourceFieldName);
-
-            $this->addField($targetFieldName, $sourceField);
-
-            if (!is_null($controlFieldSet)) {
-                $controlFieldSet->addField($targetFieldName, $sourceField);
-            }
-        }
-    }
 }
