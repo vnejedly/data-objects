@@ -30,4 +30,11 @@ interface FieldInterface
      * @return mixed
      */
     public function getSerialized();
+
+    /**
+     * @param FieldInterface $field
+     * @param bool $direction
+     * @return int
+     */
+    public function compareWith(FieldInterface $field, bool $direction) : int ;
 }

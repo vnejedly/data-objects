@@ -16,9 +16,7 @@ function dump_pre($data)
  */
 function dump_pre_die($data)
 {
-    echo "<pre>";
-    dump($data);
-    echo "</pre>";
+    dump_pre($data);
     die;
 }
 

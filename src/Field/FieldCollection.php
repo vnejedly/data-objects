@@ -2,6 +2,7 @@
 namespace Hooloovoo\DataObjects\Field;
 
 use Hooloovoo\DataObjects\DataObjectInterface;
+use Hooloovoo\DataObjects\Exception\NonCompatibleFieldsException;
 use Hooloovoo\DataObjects\Field\Exception\InvalidValueException;
 
 /**
@@ -75,5 +76,19 @@ class FieldCollection extends AbstractField
     {
         $value = $this->_value;
         return array_shift($value);
+    }
+
+    /**
+     * @param FieldInterface $field
+     * @param bool $direction
+     * @return int
+     */
+    public function compareWith(FieldInterface $field, bool $direction): int
+    {
+        if (!$field instanceof self) {
+            throw new NonCompatibleFieldsException($this, $field);
+        }
+
+        return $this->numberCompare(count($this->getValue()), count($field->getValue()), $direction);
     }
 }

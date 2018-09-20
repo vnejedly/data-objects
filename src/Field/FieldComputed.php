@@ -1,6 +1,8 @@
 <?php
 namespace Hooloovoo\DataObjects\Field;
 
+use Hooloovoo\DataObjects\Exception\NonComparableFieldException;
+use Hooloovoo\DataObjects\Exception\NonCompatibleFieldsException;
 use Hooloovoo\DataObjects\FieldSetInterface;
 use Hooloovoo\ORM\Exception\ComputedFieldUnsettableException;
 use Hooloovoo\ORM\Exception\InvalidCallbackException;
@@ -74,5 +76,35 @@ class FieldComputed extends AbstractField
     {
         $callback = &$this->callbackSet;
         $callback($value, $this->fieldSet);
+    }
+
+    /**
+     * @param FieldInterface $field
+     * @param bool $direction
+     * @return int
+     */
+    public function compareWith(FieldInterface $field, bool $direction): int
+    {
+        if (!$field instanceof self) {
+            throw new NonCompatibleFieldsException($this, $field);
+        }
+
+        if (is_numeric($this->getValue())) {
+            if (!is_numeric($field->getValue())) {
+                throw new NonCompatibleFieldsException($this, $field);
+            }
+
+            return $this->numberCompare($this->getValue(), $field->getValue(), $direction);
+        }
+
+        if (is_string($this->getValue())) {
+            if (!is_string($field->getValue())) {
+                throw new NonCompatibleFieldsException($this, $field);
+            }
+
+            return $this->stringCompare($this->getValue(), $field->getValue(), $direction);
+        }
+
+        throw new NonComparableFieldException($this);
     }
 }

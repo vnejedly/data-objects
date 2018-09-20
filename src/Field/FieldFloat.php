@@ -1,6 +1,7 @@
 <?php
 namespace Hooloovoo\DataObjects\Field;
 
+use Hooloovoo\DataObjects\Exception\NonCompatibleFieldsException;
 use Hooloovoo\DataObjects\Field\Exception\InvalidValueException;
 
 /**
@@ -33,5 +34,19 @@ class FieldFloat extends AbstractField
         }
 
         throw new InvalidValueException(self::class, $value);
+    }
+
+    /**
+     * @param FieldInterface $field
+     * @param bool $direction
+     * @return int
+     */
+    public function compareWith(FieldInterface $field, bool $direction): int
+    {
+        if (!$field instanceof self) {
+            throw new NonCompatibleFieldsException($this, $field);
+        }
+
+        return $this->numberCompare($this->getValue(), $field->getValue(), $direction);
     }
 }

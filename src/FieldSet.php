@@ -10,7 +10,7 @@ use Hooloovoo\DataObjects\Field\FieldInterface;
  */
 class FieldSet implements FieldSetInterface
 {
-    /** @var FieldComputed[] */
+    /** @var FieldInterface[] */
     protected $fields = [];
 
     /** @var self[] */
@@ -43,7 +43,7 @@ class FieldSet implements FieldSetInterface
     }
 
     /**
-     * @return FieldComputed[]
+     * @return FieldInterface[]
      */
     public function getFields() : array
     {

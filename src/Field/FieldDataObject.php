@@ -2,6 +2,8 @@
 namespace Hooloovoo\DataObjects\Field;
 
 use Hooloovoo\DataObjects\DataObjectInterface;
+use Hooloovoo\DataObjects\Exception\NonComparableFieldException;
+use Hooloovoo\DataObjects\Exception\NonCompatibleFieldsException;
 use Hooloovoo\DataObjects\Field\Exception\InvalidValueException;
 
 /**
@@ -48,5 +50,15 @@ class FieldDataObject extends AbstractField
         }
 
         return $this->_value->getSerialized();
+    }
+
+    /**
+     * @param FieldInterface $field
+     * @param bool $direction
+     * @return int
+     */
+    public function compareWith(FieldInterface $field, bool $direction): int
+    {
+        throw new NonComparableFieldException($this);
     }
 }

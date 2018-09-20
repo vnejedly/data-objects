@@ -1,6 +1,7 @@
 <?php
 namespace Hooloovoo\DataObjects\Field;
 
+use Hooloovoo\DataObjects\Exception\NonComparableFieldException;
 use Hooloovoo\DataObjects\Field\Exception\InvalidValueException;
 
 /**
@@ -23,5 +24,16 @@ class FieldArray extends AbstractField
         }
 
         $this->_value = $value;
+    }
+
+
+    /**
+     * @param FieldInterface $field
+     * @param bool $direction
+     * @return int
+     */
+    public function compareWith(FieldInterface $field, bool $direction): int
+    {
+        throw new NonComparableFieldException($field);
     }
 }

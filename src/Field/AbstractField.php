@@ -68,4 +68,42 @@ abstract class AbstractField implements FieldInterface
      * @param $value
      */
     abstract protected function _setValue($value = null);
+
+    /**
+     * @param string $valueA
+     * @param string $valueB
+     * @param bool $direction
+     * @return int
+     */
+    protected function stringCompare(string $valueA, string $valueB, bool $direction) : int
+    {
+        if ($direction) {
+            return strcmp($valueA, $valueB);
+        }
+
+        return - strcmp($valueA, $valueB);
+    }
+
+    /**
+     * @param string $valueA
+     * @param string $valueB
+     * @param bool $direction
+     * @return int
+     */
+    protected function numberCompare($valueA, $valueB, bool $direction) : int
+    {
+        if ($direction) {
+            $difference = $valueA - $valueB;
+        } else {
+            $difference = $valueB - $valueA;
+        }
+
+        if ($difference < 0) {
+            return floor($difference);
+        }
+
+        if ($difference > 0) {
+            return ceil($difference);
+        }
+    }
 }

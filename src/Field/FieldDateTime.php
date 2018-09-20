@@ -2,6 +2,7 @@
 namespace Hooloovoo\DataObjects\Field;
 
 use DateTime;
+use Hooloovoo\DataObjects\Exception\NonCompatibleFieldsException;
 use Hooloovoo\DataObjects\Field\Exception\InvalidValueException;
 
 /**
@@ -10,6 +11,7 @@ use Hooloovoo\DataObjects\Field\Exception\InvalidValueException;
 class FieldDateTime extends AbstractField
 {
     const TYPE = DateTime::class;
+    const FORMAT_TIMESTAMP = 'c';
 
     /** @var DateTime */
     protected $_value;
@@ -36,5 +38,23 @@ class FieldDateTime extends AbstractField
         }
 
         return $this->_value->format(DateTime::W3C);
+    }
+
+    /**
+     * @param FieldInterface $field
+     * @param bool $direction
+     * @return int
+     */
+    public function compareWith(FieldInterface $field, bool $direction): int
+    {
+        if (!$field instanceof self) {
+            throw new NonCompatibleFieldsException($this, $field);
+        }
+
+        return $this->numberCompare(
+            $this->getValue()->format(static::FORMAT_TIMESTAMP),
+            $field->getValue()->format(static::FORMAT_TIMESTAMP),
+            $direction
+        );
     }
 }
