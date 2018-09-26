@@ -37,7 +37,7 @@ class CollectionSorter
         usort(
             $sortedCollection,
             function (DataObjectInterface $itemA, DataObjectInterface $itemB) {
-                return $this->compareObjects($itemA, $itemB);
+                return $this->compareObjects(new DataObjectHelper($itemA), new DataObjectHelper($itemB));
             }
         );
 
@@ -55,7 +55,7 @@ class CollectionSorter
         usort(
             $sortedCollection,
             function (DataObjectHelper $itemA, DataObjectHelper $itemB) {
-                return $this->compareObjects($itemA->getObject(), $itemB->getObject());
+                return $this->compareObjects($itemA, $itemB);
             }
         );
 
@@ -63,15 +63,15 @@ class CollectionSorter
     }
 
     /**
-     * @param DataObjectInterface $objectA
-     * @param DataObjectInterface $objectB
+     * @param DataObjectHelper $helperA
+     * @param DataObjectHelper $helperB
      * @return int
      */
-    protected function compareObjects(DataObjectInterface $objectA, DataObjectInterface $objectB) : int
+    protected function compareObjects(DataObjectHelper $helperA, DataObjectHelper $helperB) : int
     {
         foreach ($this->fields as $fieldOrder) {
-            $fieldA = $objectA->getField($fieldOrder[static::FIELD_PATH]);
-            $fieldB = $objectB->getField($fieldOrder[static::FIELD_PATH]);
+            $fieldA = $helperA->getField($fieldOrder[static::FIELD_PATH]);
+            $fieldB = $helperB->getField($fieldOrder[static::FIELD_PATH]);
 
             $compValue = $fieldA->compareWith($fieldB, $fieldOrder[static::DIRECTION]);
 
