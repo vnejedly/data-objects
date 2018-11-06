@@ -13,24 +13,46 @@ class CollectionHelper
     /** @var DataObjectInterface[] */
     protected $collection;
 
-    /** @var string[] */
-    protected $indexFields;
-
     /** @var DataObjectInterface[][][] */
     protected $index = [];
 
     /**
      * CollectionHelper constructor.
+	 *
      * @param DataObjectInterface[] $collection
-     * @param array $indexFields
      */
-    public function __construct(array $collection, array $indexFields = [])
+    public function __construct(array $collection)
     {
         $this->collection = $collection;
-        $this->indexFields = $indexFields;
-
-        $this->createIndex($indexFields, $collection);
     }
+
+	/**
+	 * @param string $fieldPath
+	 */
+	public function createIndex(string $fieldPath)
+	{
+		foreach ($this->collection as $dataObject) {
+			$dataObjectHelper = new DataObjectHelper($dataObject);
+			$indexString = $dataObjectHelper->getField($fieldPath)->getSerialized();
+			$this->index[$fieldPath][$indexString][] = $dataObject;
+		}
+	}
+
+	/**
+	 * @param CollectionSorter $sorter
+	 */
+    public function sort(CollectionSorter $sorter)
+	{
+		$this->collection = $sorter->sortCollection($this->collection);
+	}
+
+	/**
+	 * @return DataObjectInterface[]
+	 */
+	public function getCollection() : array
+	{
+		return $this->collection;
+	}
 
     /**
      * @param string $fieldName
@@ -38,13 +60,30 @@ class CollectionHelper
      */
     public function getFieldList(string $fieldName) : array
     {
-        $fieldList = [];
-        foreach ($this->collection as $object) {
-            $fieldList[] = $object->getField($fieldName)->getValue();
+		$fieldList = [];
+		foreach ($this->collection as $object) {
+			$helper = new DataObjectHelper($object);
+			$fieldList[] = $helper->getField($fieldName)->getValue();
         }
 
         return $fieldList;
     }
+
+	/**
+	 * @param int $number
+	 * @return DataObjectInterface
+	 */
+	public function getMember(int $number = 1) : DataObjectInterface
+	{
+		$index = 1;
+		foreach ($this->collection as $member) {
+			if ($number == $index) {
+				return $member;
+			}
+
+			$index++;
+		}
+	}
 
     /**
      * @param string $fieldName
@@ -60,7 +99,9 @@ class CollectionHelper
             throw new NonExistingFieldValueException($fieldName, $fieldValue);
         }
 
-        return array_shift($subset);
+        foreach ($subset as $member) {
+        	return $member;
+		}
     }
 
     /**
@@ -102,20 +143,5 @@ class CollectionHelper
         }
 
         return $this->index[$fieldName][$fieldValue];
-    }
-
-    /**
-     * @param array $fields
-     * @param DataObjectInterface[] $collection
-     */
-    protected function createIndex(array $fields, array $collection)
-    {
-        foreach ($collection as $dataObject) {
-            $dataObjectHelper = new DataObjectHelper($dataObject);
-            foreach ($fields as $fieldName) {
-                $indexString = $dataObjectHelper->getField($fieldName)->getSerialized();
-                $this->index[$fieldName][$indexString][] = $dataObject;
-            }
-        }
     }
 }
