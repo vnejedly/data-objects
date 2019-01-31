@@ -7,7 +7,7 @@ use Hooloovoo\DataObjects\Field\Exception\InvalidValueException;
 /**
  * Class FieldFloat
  */
-class FieldFloat extends AbstractField
+class FieldFloat extends AbstractField implements ScalarFieldInterface
 {
     const TYPE = 'float';
 
@@ -48,5 +48,17 @@ class FieldFloat extends AbstractField
         }
 
         return $this->numberCompare($this->getValue(), $field->getValue(), $direction);
+    }
+
+    /**
+     * @return string
+     */
+    public function getStringValue(): ?string
+    {
+        if (is_null($this->_value)) {
+            return null;
+        }
+
+        return (string) $this->_value;
     }
 }

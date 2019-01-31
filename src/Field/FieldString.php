@@ -7,7 +7,7 @@ use Hooloovoo\DataObjects\Field\Exception\InvalidValueException;
 /**
  * Class FieldString
  */
-class FieldString extends AbstractField
+class FieldString extends AbstractField implements ScalarFieldInterface
 {
     const TYPE = 'string';
 
@@ -44,5 +44,13 @@ class FieldString extends AbstractField
         }
 
         return $this->stringCompare($this->getValue(), $field->getValue(), $direction);
+    }
+
+    /**
+     * @return string
+     */
+    public function getStringValue(): ?string
+    {
+        return $this->_value;
     }
 }

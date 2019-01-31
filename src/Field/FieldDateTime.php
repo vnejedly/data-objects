@@ -8,7 +8,7 @@ use Hooloovoo\DataObjects\Field\Exception\InvalidValueException;
 /**
  * Class FieldDateTime
  */
-class FieldDateTime extends AbstractField
+class FieldDateTime extends AbstractField implements ScalarFieldInterface
 {
     const TYPE = DateTime::class;
     const FORMAT_TIMESTAMP = 'c';
@@ -56,5 +56,17 @@ class FieldDateTime extends AbstractField
             $field->getValue()->format(static::FORMAT_TIMESTAMP),
             $direction
         );
+    }
+
+    /**
+     * @return string
+     */
+    public function getStringValue(): ?string
+    {
+        if (is_null($this->_value)) {
+            return null;
+        }
+
+        return $this->_value->format(DateTime::W3C);
     }
 }

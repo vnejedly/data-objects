@@ -7,17 +7,20 @@ use Hooloovoo\DataObjects\Field\Exception\InvalidValueException;
 /**
  * Class FieldBool
  */
-class FieldBool extends AbstractField
+class FieldBool extends AbstractField implements ScalarFieldInterface
 {
     const TYPE = 'bool';
+
+    const VAL_STRING_TRUE = 'true';
+    const VAL_STRING_FALSE = 'false';
 
     /** @var bool */
     protected $_value;
 
     /** @var bool[] */
     protected $_stringVal = [
-        'true' => true,
-        'false' => false,
+        self::VAL_STRING_TRUE => true,
+        self::VAL_STRING_FALSE => false,
     ];
 
     /**
@@ -54,5 +57,21 @@ class FieldBool extends AbstractField
         }
 
         return $this->numberCompare($this->getValue(), $field->getValue(), $direction);
+    }
+
+    /**
+     * @return string
+     */
+    public function getStringValue(): ?string
+    {
+        if (is_null($this->_value)) {
+            return null;
+        }
+
+        if ($this->_value) {
+            return self::VAL_STRING_TRUE;
+        }
+
+        return self::VAL_STRING_FALSE;
     }
 }
