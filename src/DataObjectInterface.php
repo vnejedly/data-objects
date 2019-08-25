@@ -14,5 +14,5 @@ interface DataObjectInterface extends FieldSetInterface
     /**
      * @return array
      */
-    public function getSerialized();
+    public function getSerialized() : array ;
 }

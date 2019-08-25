@@ -66,7 +66,7 @@ abstract class DataObject extends FieldSet implements DataObjectInterface
     /**
      * @return array
      */
-    public function getSerialized()
+    public function getSerialized() : array 
     {
         $result = [];
         foreach ($this->fields as $name => $field) {
